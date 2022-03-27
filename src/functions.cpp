@@ -4,18 +4,25 @@ unsigned long lifeLength(unsigned long lifeStart, unsigned long lifeEnd){
     unsigned long life = lifeEnd - lifeStart;
     return life;
 }
-/*
-unsigned long totalPulses(){
 
-    return totalPulses;
-}*/
-
-double pulseTime(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd){///Important
+unsigned long initialPulsesLeft(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd){ //gets inital number of pulses left based on ratio of passed time in timeframe
     long double timeLeft = lifeEnd - epoch;
     unsigned long life = lifeEnd - lifeStart;
-   
     long double ratio = timeLeft/life;
+    
     unsigned long pulsesLeft =  1415577600*ratio;
+    Serial.println(pulsesLeft);
+    return pulsesLeft;
+}
+
+
+long double timeLeft(unsigned long epoch, unsigned long lifeEnd){ //calculates amount of time left in timeframe, in real seconds
+    long double timeLeft = lifeEnd - epoch;
+    return timeLeft;
+}
+
+double pulseTime(double timeLeft, unsigned long pulsesLeft){//calculates length of pulse for clock
+    
     double PT = 1000000*(timeLeft / pulsesLeft);
     return PT;
 }
