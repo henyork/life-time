@@ -6,7 +6,7 @@
 
 #define CS 43200.00
 #define DEBUG 1
-#define DIFF 1576800 //debug value will be halfway between this*2
+#define DIFF 157680 //debug value will be halfway between this*2
 //unsigned long lifeStart= 1148068800;
 //unsigned long lifeEnd = 3988296000;
 unsigned long lifeStart= 1148068800;
@@ -15,14 +15,14 @@ unsigned long oldPulse = 0;
 unsigned long epoch = 0;
 unsigned long timeLeft = 0;
 unsigned long lastCheck = 0;
-//const unsigned long totalPulses = 1415577600;
+unsigned long totalPulses = 0;
 
 double PT = 1000; //1 pulse per 1000 milliseconds
 bool pinVal = 0;
 
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 30000);
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
 
 
 
@@ -79,18 +79,18 @@ if(micros()-oldPulse > (.5*PT)){
     
 }
 
-if(millis()-lastCheck >= 30000){ //update PT every 30 seconds
+if(millis()-lastCheck >= 10000){ //update PT every 10 seconds
     lastCheck = millis();
     timeClient.update();
     epoch = timeClient.getEpochTime();
     PT = pulseTime(epoch, lifeStart, lifeEnd);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
-    Serial.print("Hours: ");
+    /*Serial.print("Hours: ");
     Serial.println(time[0]);
     Serial.print("Minutes: ");
     Serial.println(time[1]);
-    Serial.print("Seconds: ");
+    Serial.print("Seconds: ");*/
     Serial.println(time[2]);
 }
 
