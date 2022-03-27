@@ -13,9 +13,9 @@ unsigned long lifeStart= ***REMOVED***;
 unsigned long lifeEnd = ***REMOVED***;
 unsigned long oldPulse = 0;
 unsigned long epoch = 0;
-unsigned long timeLeft = 0;
+
 unsigned long lastCheck = 0;
-unsigned long totalPulses = 0;
+unsigned long pulsesLeft = 0;
 
 double PT = 1000; //1 pulse per 1000 milliseconds
 bool pinVal = 0;
@@ -54,7 +54,8 @@ void setup(){
     lifeStart = epoch - DIFF;
     lifeEnd = epoch + DIFF;
     #endif
-    PT = pulseTime(epoch, lifeStart, lifeEnd);
+    pulsesLeft = initialPulsesLeft(epoch, lifeStart, lifeEnd);
+    PT = pulseTime(lifeEnd-epoch,pulsesLeft);
     Serial.println(PT);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
@@ -73,7 +74,7 @@ void loop(){
 
 if(micros()-oldPulse > (.5*PT)){
     oldPulse = micros();
-    
+    if(pinVal){pulsesLeft--;}
     pinVal = !pinVal;
     digitalWrite(5, pinVal);
     
@@ -83,7 +84,11 @@ if(millis()-lastCheck >= 10000){ //update PT every 10 seconds
     lastCheck = millis();
     timeClient.update();
     epoch = timeClient.getEpochTime();
-    PT = pulseTime(epoch, lifeStart, lifeEnd);
+    Serial.print("pulsesLeft:");
+    Serial.println(pulsesLeft);
+    PT = pulseTime(lifeEnd - epoch, pulsesLeft);
+    Serial.print("PT: ");
+    Serial.println(PT);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
     /*Serial.print("Hours: ");
