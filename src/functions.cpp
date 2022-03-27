@@ -4,6 +4,11 @@ unsigned long lifeLength(unsigned long lifeStart, unsigned long lifeEnd){
     unsigned long life = lifeEnd - lifeStart;
     return life;
 }
+/*
+unsigned long totalPulses(){
+
+    return totalPulses;
+}*/
 
 double pulseTime(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd){///Important
     long double timeLeft = lifeEnd - epoch;
