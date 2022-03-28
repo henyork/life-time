@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <EEPROM.h>
 
 unsigned long lifeLength(unsigned long lifeStart, unsigned long lifeEnd){ 
     unsigned long life = lifeEnd - lifeStart;
@@ -11,7 +12,7 @@ unsigned long initialPulsesLeft(unsigned long epoch, unsigned long lifeStart, un
     long double ratio = timeLeft/life;
     
     unsigned long pulsesLeft =  1415577600*ratio;
-    Serial.println(pulsesLeft);
+    
     return pulsesLeft;
 }
 
@@ -28,13 +29,31 @@ double pulseTime(double timeLeft, unsigned long pulsesLeft){//calculates length 
 }
 
 void clockTime(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd, int time[]){
-    double lifeLength = lifeEnd - lifeStart;
+    if(epoch<lifeEnd){
+        double lifeLength = lifeEnd - lifeStart;
     unsigned long timePassed = epoch - lifeStart;
     double lifeRatio = timePassed / lifeLength;
     int clockSeconds = lifeRatio * 43200;
     time[0] = clockSeconds / 3600; //number of hours in clockseconds
     time[1] = (clockSeconds % 3600)/60;
     time[2] = clockSeconds % 60;
+    }else{ //if timeframe has ended
+        time[0] = 12;
+        time[1] = 0;
+        time[2] = 0;
+    }
+    
    
 
 }
+
+
+void printClockTime(int time[]){
+    for( int i = 0; i<=2; i++){
+        Serial.print(time[i]);
+        if(i < 2){Serial.print(":");}
+        
+    }
+    Serial.print("\n");
+}
+

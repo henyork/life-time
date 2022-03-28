@@ -1,0 +1,26 @@
+21:55:11.030 > Connecting to ***REMOVED***
+21:55:11.030 > .........222.78
+21:55:15.007 > Hours: 6
+21:55:15.008 > Minutes: 0
+21:55:15.010 > Seconds: 0
+21:55:15.010 > Press any key to enter menus...
+21:55:20.056 > Clock should read 6:0:0
+21:55:20.060 > Press 1 to recalibrate or 2 to change timeframe
+21:55:21.040 > Enter start and end time as epoch, seperated by a comma:
+21:55:22.241 > Reading buffer..
+21:55:22.244 > Reading buffer..
+21:55:22.246 > Values Recieved: Start =1648252800, End=1648944000
+21:55:22.251 > Enter y to accept, n to cancel
+21:55:26.947 > 3
+21:55:26.948 > 121
+21:55:27.028 > New timeframe set
+21:55:29.697 > Clock should read 3:7:13
+21:55:29.701 > Press 1 to recalibrate or 2 to change timeframe
+21:55:31.655 > Enter start and end time as epoch, seperated by a comma:
+21:55:33.963 > Reading buffer..
+21:55:33.967 > Reading buffer..
+21:55:33.968 > Values Recieved: Start =1648252800, End=1648944000
+21:55:33.972 > Enter y to accept, n to cancel
+21:55:34.965 > 3
+21:55:34.966 > 110
+21:55:34.967 > Canceled

@@ -1,0 +1,27 @@
+22:50:35.173 > Connecting to ***REMOVED***
+22:50:35.173 > .............255
+22:50:41.120 > 255
+22:50:41.121 > 255
+22:50:41.121 > 255
+22:50:41.122 > TF start:4277137661
+22:50:41.123 > TF end:4277137661
+22:50:41.125 > 612042.34
+22:50:41.126 > Hours: 12
+22:50:41.127 > Minutes: 0
+22:50:41.128 > Seconds: 0
+22:50:41.130 > Press any key to enter menus... 
+22:50:53.205 > Clock should read 12:0:0
+22:50:53.209 > Press 1 to recalibrate or 2 to change timeframe
+22:50:55.513 > Enter start and end time as epoch, seperated by a comma:
+22:50:57.416 > Values Recieved: Start =50, End=5000
+22:50:57.421 > Enter y to accept, n to cancel
+22:50:58.617 > 50
+22:50:58.619 > 0
+22:50:58.619 > 0
+22:50:58.619 > 0
+22:50:58.619 > 50
+22:50:58.621 > 0
+22:50:58.621 > 0
+22:50:58.621 > 0
+22:50:58.802 > New timeframe set
+22:50:58.805 > Press any key to enter menus... 
