@@ -9,6 +9,7 @@
 #define CS 43200.00
 #define DEBUG 1
 #define DIFF 157680 //debug value will be halfway between this*2
+//#define DIFF 157680000
 //unsigned long lifeStart= 1148068800;
 //unsigned long lifeEnd = 3988296000;
 unsigned long lifeStart= 1148068800;
@@ -54,13 +55,14 @@ void setup(){
     timeClient.update();
     
     epoch = timeClient.getEpochTime();
+    #if DEBUG == 0
+    EEPROM.get(0, lifeStart);
+    EEPROM.get(4, lifeEnd);
+    #endif
     #if DEBUG == 1
     lifeStart = epoch - DIFF;
     lifeEnd = epoch + DIFF;
     #endif
-    EEPROM.get(0, lifeStart);
-    EEPROM.get(4, lifeEnd);
-    
     Serial.print("TF start:");
     Serial.println(lifeStart);
     Serial.print("TF end:");
@@ -84,21 +86,24 @@ void setup(){
 void loop(){
 
 
-if((micros()-oldPulse > (.5*PT)) && epoch > lifeEnd){
+if((micros()-oldPulse >= (.5*PT)) && epoch <= lifeEnd){
     oldPulse = micros();
+    
     if(pinVal){pulsesLeft--;}
     pinVal = !pinVal;
     digitalWrite(4, pinVal);
     
 }
 
-if((millis()-lastCheck >= 10000)&& epoch > lifeEnd){ //update PT every 10 seconds
+if((millis()-lastCheck >= 10000)&& epoch <= lifeEnd){ //update PT every 10 seconds
     lastCheck = millis();
     timeClient.update();
     epoch = timeClient.getEpochTime();
     PT = pulseTime(lifeEnd - epoch, pulsesLeft);
+    Serial.println(PT);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
+    printClockTime(time);
 }
 
 if(Serial.available()>0){
@@ -127,7 +132,7 @@ if(Serial.available()>0){
                 menuLvl = 3;
             break;
         }
-        case 2:
+        case 2: //recalibration routine
         {
             char cmd[Serial.available()];
             Serial.readBytes(cmd, Serial.available());
@@ -180,10 +185,23 @@ if(Serial.available()>0){
                 pulsesLeft = initialPulsesLeft(epoch, lifeStart, lifeEnd);
                 PT = pulseTime(lifeEnd-epoch,pulsesLeft);
                 Serial.println("New timeframe set");
+                int time[3];
+                clockTime(epoch+25, lifeStart, lifeEnd, time);
+                Serial.print("You have 25 seconds to move hands to ");
+                printClockTime(time);
+                recalibTimer = millis();
+                while(millis()-recalibTimer < 25000){ //block other processes for 15 seconds
+                    Serial.println(25-((millis()-recalibTimer)/1000));
+                    delay(1000);
+                }
+                Serial.print("Clock should now read ");
+                printClockTime(time);
             }else if(cmd == 'n' || cmd == 'N'){
                 Serial.println("Canceled");
+                
             }else{
                 Serial.println("Canceled: Unknown command");
+                
             }
             menuLvl = 0;
             Serial.print("Press any key to enter menus... \n");
