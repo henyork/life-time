@@ -6,6 +6,8 @@ double pulseTime(double timeLeft, unsigned long pulsesLeft);
 
 void clockTime(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd, int time[]);
 
+void printClockTime(int time[]);
+
 long double timeLeft(unsigned long epoch, unsigned long lifeEnd);
 
 unsigned long initialPulsesLeft(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd);

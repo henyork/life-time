@@ -1,0 +1,21 @@
+22:40:36.680 > Connecting to ATTTq9BPPi
+22:40:36.680 > .........TF start:4277137406
+22:40:40.684 > TF end:4277137406
+22:40:40.686 > 612042.42
+22:40:40.687 > Hours: 12
+22:40:40.689 > Minutes: 0
+22:40:40.691 > Seconds: 0
+22:40:40.691 > Press any key to enter menus... 
+22:40:51.942 > Clock should read 12:0:0
+22:40:51.945 > Press 1 to recalibrate or 2 to change timeframe
+22:40:53.137 > Enter start and end time as epoch, seperated by a comma:
+22:40:56.858 > Values Recieved: Start =50, End=500
+22:40:56.863 > Enter y to accept, n to cancel
+22:41:00.765 > 50
+22:41:00.767 > 0
+22:41:00.767 > 0
+22:41:00.767 > 0
+22:41:00.768 > 0
+22:41:00.768 > 0
+22:41:00.817 > New timeframe set
+22:41:00.820 > Press any key to enter menus... 

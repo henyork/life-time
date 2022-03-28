@@ -1,0 +1,16 @@
+21:56:00.655 > Connecting to ATTTq9BPPi
+21:56:00.655 > .......222.78
+21:56:03.707 > Hours: 6
+21:56:03.707 > Minutes: 0
+21:56:03.707 > Seconds: 0
+21:56:03.709 > Press any key to enter menus...
+21:56:05.398 > Clock should read 6:0:0
+21:56:05.401 > Press 1 to recalibrate or 2 to change timeframe
+21:56:05.878 > Enter start and end time as epoch, seperated by a comma:
+21:56:07.379 > Reading buffer..
+21:56:07.382 > Reading buffer..
+21:56:07.383 > Values Recieved: Start =1648252800, End=1648944000
+21:56:07.388 > Enter y to accept, n to cancel
+21:56:09.481 > 3
+21:56:09.483 > 121
+21:56:09.483 > New timeframe set

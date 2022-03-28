@@ -1,0 +1,36 @@
+21:57:33.586 > Connecting to ATTTq9BPPi
+21:57:33.586 > .......222.78
+21:57:36.545 > Hours: 6
+21:57:36.547 > Minutes: 0
+21:57:36.547 > Seconds: 0
+21:57:36.549 > Press any key to enter menus...
+21:57:38.295 > Clock should read 6:0:0
+21:57:38.298 > Press 1 to recalibrate or 2 to change timeframe
+21:57:39.457 > Enter start and end time as epoch, seperated by a comma:
+21:57:41.459 > Reading buffer..
+21:57:41.463 > Reading buffer..
+21:57:41.464 > Values Recieved: Start =1648252800, End=1648944000
+21:57:41.468 > Enter y to accept, n to cancel
+21:57:43.360 > 3
+21:57:43.362 > 104
+21:57:43.363 > Canceled: Unknown command
+21:57:49.497 > Clock should read 6:0:0
+21:57:49.514 > Press 1 to recalibrate or 2 to change timeframe
+21:57:53.648 > Enter start and end time as epoch, seperated by a comma:
+21:57:55.151 > Reading buffer..
+21:57:55.154 > Reading buffer..
+21:57:55.155 > Values Recieved: Start =1648252800, End=1648944000
+21:57:55.160 > Enter y to accept, n to cancel
+21:57:58.456 > 3
+21:57:58.457 > 121
+21:57:58.458 > New timeframe set
+21:58:22.130 > Clock should read 3:7:23
+21:58:22.134 > Press 1 to recalibrate or 2 to change timeframe
+21:58:23.119 > Enter start and end time as epoch, seperated by a comma:
+21:58:25.022 > Reading buffer..
+21:58:25.026 > Reading buffer..
+21:58:25.027 > Values Recieved: Start =1648252800, End=1648944000
+21:58:25.032 > Enter y to accept, n to cancel
+21:58:26.025 > 3
+21:58:26.027 > 110
+21:58:26.028 > Canceled
