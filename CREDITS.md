@@ -1,3 +1,3 @@
-## ESP8266 Arduino Core [license]() [link]()
-## NTPClient [license](https://github.com/arduino-libraries/NTPClient) [link]()
-## EEPROM [license]() [link]()
+## ESP8266 Arduino Core [link](https://github.com/esp8266/Arduino)
+## NTPClient [link](https://github.com/arduino-libraries/NTPClient)
+
