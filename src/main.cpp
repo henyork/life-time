@@ -5,7 +5,7 @@
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
-Adafruit_NeoPixel pixels(52, 12, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(52, 13, NEO_GRB + NEO_KHZ800);
 
 
 #define DEBUG 0
@@ -89,7 +89,7 @@ void setup(){
     Serial.print("Press any key to enter menus... \n");
 
     for(int i=0; i<52; i++){
-        pixels.setPixelColor(i,pixels.Color(30,30,20));
+        pixels.setPixelColor(i,pixels.Color(4,4,2));
     }
     pixels.show();
 }
