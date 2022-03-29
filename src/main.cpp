@@ -4,6 +4,20 @@
 #include <NTPClient.h>
 #include <EEPROM.h>
 #include <functions.h>
+#include <Adafruit_NeoPixel.h>
+//Comment out line below
+#include <secrets.h>
+
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
+Adafruit_NeoPixel pixels(52, 12, NEO_GRB + NEO_KHZ800);
+
+
+#define DEBUG 0
+//#define DIFF 157680 //debug value will be halfway between this*2
+#define DIFF 43200/2
+#define STEPPIN1 4
+#define STEPPIN2 5
 
 
 #define CS 43200.00
@@ -25,8 +39,10 @@ double PT = 1000; //1 pulse per 1000 milliseconds
 bool pinVal = 0;
 
 
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
+//Define your WiFi credentials here, then uncomment the 2 lines below
+//const char *ssid     = "abcdefgh";
+//const char *password = "12354678";
+
 
 
 
