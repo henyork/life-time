@@ -1,4 +1,4 @@
-## Life Clock
+## Life Time
 ### Code for displaying custom time periods on analog clock
 
 The project uses an ESP8266 NodeMCU board to control the internal motor of an analog wall clock. The ESP8266 needs a wifi connection to recieve time data. The project requires the Adafruit_NeoPixel, NTPClient, and EEPROM libraries. 
