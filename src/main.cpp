@@ -17,8 +17,8 @@ Adafruit_NeoPixel pixels(52, 13, NEO_GRB + NEO_KHZ800);
 
 
 
-unsigned long lifeStart= ***REMOVED***;
-unsigned long lifeEnd = ***REMOVED***;
+unsigned long lifeStart;
+unsigned long lifeEnd;
 unsigned long lastStep = 0;
 unsigned long epoch = 0;
 unsigned long lastActivity = 0;
