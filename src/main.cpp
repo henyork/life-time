@@ -15,6 +15,8 @@ Adafruit_NeoPixel pixels(52, 12, NEO_GRB + NEO_KHZ800);
 #define STEPPIN2 5
 
 
+
+
 unsigned long lifeStart= ***REMOVED***;
 unsigned long lifeEnd = ***REMOVED***;
 unsigned long lastStep = 0;
@@ -95,6 +97,7 @@ void setup(){
 
 
 void loop(){
+
 
 if((millis()-lastStep > ST) && epoch < lifeEnd){
     lastStep = millis();
@@ -184,7 +187,7 @@ if(Serial.available()>0){
                 menuLvl = 3;
             break;
         }
-        case 2:
+        case 2: //recalibration routine
         {
             char cmd[Serial.available()];
             Serial.readBytes(cmd, Serial.available());
@@ -250,8 +253,10 @@ if(Serial.available()>0){
                 printClockTime(time);
             }else if(cmd == 'n' || cmd == 'N'){
                 Serial.println("Canceled");
+                
             }else{
                 Serial.println("Canceled: Unknown command");
+                
             }
             menuLvl = 0;
             Serial.print("Press any key to enter menus... \n");
