@@ -1,19 +1,22 @@
-#include <Arduino.h>
-#include <EEPROM.h>
+#include <extern.h>
+
+#define STEPPIN1 4
+#define STEPPIN2 5
+
 
 unsigned long lifeLength(unsigned long lifeStart, unsigned long lifeEnd){ 
     unsigned long life = lifeEnd - lifeStart;
     return life;
 }
 
-unsigned long initialPulsesLeft(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd){ //gets inital number of pulses left based on ratio of passed time in timeframe
+unsigned long initialStepsLeft(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd){ //gets inital number of steps left based on ratio of passed time in timeframe
     long double timeLeft = lifeEnd - epoch;
     unsigned long life = lifeEnd - lifeStart;
     long double ratio = timeLeft/life;
     
-    unsigned long pulsesLeft =  1415577600*ratio;
+    unsigned long stepsLeft =  345600*ratio;
     
-    return pulsesLeft;
+    return stepsLeft;
 }
 
 
@@ -22,10 +25,10 @@ long double timeLeft(unsigned long epoch, unsigned long lifeEnd){ //calculates a
     return timeLeft;
 }
 
-double pulseTime(double timeLeft, unsigned long pulsesLeft){//calculates length of pulse for clock
+double stepTime(double timeLeft, unsigned long stepsLeft){//calculates length of pulse for clock
     
-    double PT = 1000000*(timeLeft / pulsesLeft);
-    return PT;
+    double ST = 1000*(timeLeft / stepsLeft);
+    return ST;
 }
 
 void clockTime(unsigned long epoch, unsigned long lifeStart, unsigned long lifeEnd, int time[]){

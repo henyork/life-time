@@ -1,32 +1,39 @@
-#include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiUdp.h>
-#include <NTPClient.h>
-#include <EEPROM.h>
+#include <extern.h>
 #include <functions.h>
-
-
-#define CS 43200.00
-#define DEBUG 1
-#define DIFF 157680 //debug value will be halfway between this*2
-//#define DIFF 157680000
-//unsigned long lifeStart= ***REMOVED***;
-//unsigned long lifeEnd = ***REMOVED***;
-unsigned long lifeStart= ***REMOVED***;
-unsigned long lifeEnd = ***REMOVED***;
-unsigned long oldPulse = 0;
-unsigned long epoch = 0;
-unsigned long lastActivity = 0;
-unsigned long lastCheck = 0;
-unsigned long pulsesLeft = 0;
-unsigned long recalibTimer = 0;
-int menuLvl = 0;
-double PT = 1000; //1 pulse per 1000 milliseconds
-bool pinVal = 0;
-
+#include <Adafruit_NeoPixel.h>
+#include <secrets.h>
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
+Adafruit_NeoPixel pixels(52, 12, NEO_GRB + NEO_KHZ800);
+
+
+#define DEBUG 0
+//#define DIFF 157680 //debug value will be halfway between this*2
+#define DIFF 43200/2
+#define STEPPIN1 4
+#define STEPPIN2 5
+
+
+
+
+unsigned long lifeStart= ***REMOVED***;
+unsigned long lifeEnd = ***REMOVED***;
+unsigned long lastStep = 0;
+unsigned long epoch = 0;
+unsigned long lastActivity = 0;
+unsigned long lastCheck = 0;
+unsigned long stepsLeft = 0;
+unsigned long recalibTimer = 0;
+int menuLvl = 0;
+double ST = 125; //1 step per 125 milliseconds
+bool pinVal = 0;
+
+
+//Define your WiFi credentials here
+//const char *ssid     = "abcdefgh";
+//const char *password = "12354678";
+
 
 
 
@@ -35,12 +42,13 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 10000);
 
 
 void setup(){
-    pinMode(4,OUTPUT);
-    digitalWrite(4, HIGH);
-    const char *ssid     = "***REMOVED***";
-    const char *password = "***REMOVED***";
+    pinMode(STEPPIN1,OUTPUT);
+    pinMode(STEPPIN2,OUTPUT);
+    
+    
 
     EEPROM.begin(8);
+    pixels.begin();
     Serial.begin(115200);
     Serial.print("Connecting to ");
     Serial.println(ssid);
@@ -67,9 +75,9 @@ void setup(){
     Serial.println(lifeStart);
     Serial.print("TF end:");
     Serial.println(lifeEnd);
-    pulsesLeft = initialPulsesLeft(epoch, lifeStart, lifeEnd);
-    PT = pulseTime(lifeEnd-epoch,pulsesLeft);
-    Serial.println(PT);
+    stepsLeft = initialStepsLeft(epoch, lifeStart, lifeEnd);
+    ST = stepTime(lifeEnd-epoch,stepsLeft);
+    Serial.println(ST);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
     Serial.print("Hours: ");
@@ -79,6 +87,11 @@ void setup(){
     Serial.print("Seconds: ");
     Serial.println(time[2]);
     Serial.print("Press any key to enter menus... \n");
+
+    for(int i=0; i<52; i++){
+        pixels.setPixelColor(i,pixels.Color(30,30,20));
+    }
+    pixels.show();
 }
 
 
@@ -86,21 +99,63 @@ void setup(){
 void loop(){
 
 
-if((micros()-oldPulse >= (.5*PT)) && epoch <= lifeEnd){
-    oldPulse = micros();
+if((millis()-lastStep > ST) && epoch < lifeEnd){
+    lastStep = millis();
+    if(millis()-lastCheck>=10000){ //special update step
     
-    if(pinVal){pulsesLeft--;}
-    pinVal = !pinVal;
-    digitalWrite(4, pinVal);
-    
+    unsigned long timer = millis();
+    int time[3];
+    digitalWrite(STEPPIN1,HIGH);
+    digitalWrite(STEPPIN2,LOW);
+    lastCheck = millis();
+    timeClient.update();
+    while(millis()-timer < 54){
+        ; //just do nothing
+    }
+    digitalWrite(STEPPIN1,LOW);
+    digitalWrite(STEPPIN2,LOW);
+    delay(8);
+    timer = millis();
+    digitalWrite(STEPPIN1,LOW);
+    digitalWrite(STEPPIN2,HIGH);
+    unsigned long epoch = timeClient.getEpochTime();
+    ST = stepTime(lifeEnd-epoch, stepsLeft);
+    Serial.println(ST);
+    clockTime(epoch, lifeStart, lifeEnd, time);
+    printClockTime(time);
+    while(millis()-timer < 54){
+        ; //just do nothing
+    }
+    digitalWrite(STEPPIN1,HIGH);
+    digitalWrite(STEPPIN2,HIGH);
+    delay(8);
+    delay(1);
+    }else{//normal step 
+    digitalWrite(STEPPIN1,HIGH);
+    digitalWrite(STEPPIN2,LOW);
+    delay(54);
+    digitalWrite(STEPPIN1,LOW);
+    digitalWrite(STEPPIN2,LOW);
+    delay(8);
+    digitalWrite(STEPPIN1,LOW);
+    digitalWrite(STEPPIN2,HIGH);
+    delay(54);
+    digitalWrite(STEPPIN1,HIGH);
+    digitalWrite(STEPPIN2,HIGH);
+    delay(8);
+    delay(1);
+    }
 }
 
-if((millis()-lastCheck >= 10000)&& epoch <= lifeEnd){ //update PT every 10 seconds
+
+
+
+if((millis()-lastCheck >= 10000)&& epoch < lifeEnd){ //update PT every 10 seconds
     lastCheck = millis();
     timeClient.update();
     epoch = timeClient.getEpochTime();
-    PT = pulseTime(lifeEnd - epoch, pulsesLeft);
-    Serial.println(PT);
+    ST = stepTime(lifeEnd - epoch, stepsLeft);
+    Serial.println(ST);
     int time[3];
     clockTime(epoch, lifeStart, lifeEnd, time);
     printClockTime(time);
@@ -182,8 +237,8 @@ if(Serial.available()>0){
                 EEPROM.commit();
                 timeClient.update();
                 epoch = timeClient.getEpochTime();
-                pulsesLeft = initialPulsesLeft(epoch, lifeStart, lifeEnd);
-                PT = pulseTime(lifeEnd-epoch,pulsesLeft);
+                stepsLeft = initialStepsLeft(epoch, lifeStart, lifeEnd);
+                ST = stepTime(lifeEnd-epoch,stepsLeft);
                 Serial.println("New timeframe set");
                 int time[3];
                 clockTime(epoch+25, lifeStart, lifeEnd, time);
